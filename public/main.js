@@ -1,4 +1,6 @@
-class PirateKingdom {
+class PirateKingdom 
+
+{
   constructor() {
     this.year = 1700;
     this.pirates = 50;
@@ -7,6 +9,15 @@ class PirateKingdom {
     this.fish = 150;
     this.doubloons = 25;
     this.events = ["disease", "kraken", "storms"];
+    this.boatCost = 100; // Added cost to build a boat
+    this.piratesFishing = 0; // Initialize piratesFishing
+    this.piratesTreasureHunting = 0; // Initialize piratesTreasureHunting
+    this.piratesBuildingBoats = 0; // Initialize piratesBuildingBoats
+    this.prices = {
+      fish: Math.floor(Math.random() * 6) + 5,
+      boats: Math.floor(Math.random() * 100) + 200,
+      cannons: Math.floor(Math.random() * 20) + 40,
+    };
   }
 
   advanceYear() {
@@ -26,6 +37,24 @@ class PirateKingdom {
       }
     }
 
+    // Pirates go fishing
+    this.fish += this.piratesFishing * (Math.floor(Math.random() * 3) + 1);
+
+    // Pirates go treasure hunting
+    if (this.piratesTreasureHunting >= 5) {
+      this.doubloons += this.piratesTreasureHunting * (Math.floor(Math.random() * 6) + 5);
+    }
+
+    // Pirates build boats
+    if (this.piratesBuildingBoats >= 10) {
+      const numBoats = Math.floor(this.piratesBuildingBoats / 10);
+      const boatCost = numBoats * this.boatCost;
+      if (this.doubloons >= boatCost) {
+        this.doubloons -= boatCost;
+        this.boats += numBoats;
+      }
+    }
+
     // Random event
     const randomEvent = this.events[Math.floor(Math.random() * this.events.length)];
     this.handleRandomEvent(randomEvent);
@@ -37,28 +66,24 @@ class PirateKingdom {
     this.pirates += Math.floor(Math.random() * 10) + 1;
   }
 
-assignPirates(job, numPirates) {
+  assignPirates(job, numPirates) {
     if (numPirates <= this.pirates) {
-        this.pirates -= numPirates;
+      this.pirates -= numPirates;
 
-        switch (job) {
-            case 'fishing':
-                this.fish += numPirates * (Math.floor(Math.random() * 3) + 1);
-                break;
-            case 'treasureHunting':
-                if (numPirates >= 5) {
-                    this.doubloons += numPirates * (Math.floor(Math.random() * 6) + 5);
-                }
-                break;
-            case 'buildingBoats':
-                if (numPirates >= 10) {
-                    this.boats += Math.floor(numPirates / 10);
-                    this.pirates += numPirates; // Return the pirates after building boats
-                }
-                break;
-        }
+      switch (job) {
+        case 'fishing':
+          this.piratesFishing += numPirates;
+          break;
+        case 'treasureHunting':
+          this.piratesTreasureHunting += numPirates;
+          break;
+        case 'buildingBoats':
+          this.piratesBuildingBoats += numPirates;
+          break;
+      }
     }
-}
+  }
+
 
 
   battle(opponent) {
@@ -84,57 +109,52 @@ assignPirates(job, numPirates) {
     }
   }
 
-  market(action, item, quantity) {
-    const prices = {
-            fish: Math.floor(Math.random() * 6) + 5,
-      boats: Math.floor(Math.random() * 100) + 200,
-      cannons: Math.floor(Math.random() * 20) + 40,
-    };
-
-    if (action === "buy") {
-      switch (item) {
-        case "fish":
-          if (this.doubloons >= prices.fish * quantity) {
-            this.doubloons -= prices.fish * quantity;
-            this.fish += quantity;
-          }
-          break;
-        case "boats":
-          if (this.doubloons >= prices.boats * quantity) {
-            this.doubloons -= prices.boats * quantity;
-            this.boats += quantity;
-          }
-          break;
-        case "cannons":
-          if (this.doubloons >= prices.cannons * quantity) {
-            this.doubloons -= prices.cannons * quantity;
-            this.cannons += quantity;
-          }
-          break;
-      }
-    } else if (action === "sell") {
-      switch (item) {
-        case "fish":
-          if (this.fish >= quantity) {
-            this.doubloons += prices.fish * quantity;
-            this.fish -= quantity;
-          }
-          break;
-        case "boats":
-          if (this.boats >= quantity) {
-            this.doubloons += prices.boats * quantity;
-            this.boats -= quantity;
-          }
-          break;
-        case "cannons":
-          if (this.cannons >= quantity) {
-            this.doubloons += prices.cannons * quantity;
-            this.cannons -= quantity;
-          }
-          break;
-      }
+market(action, item, quantity) {
+  if (action === "buy") {
+    switch (item) {
+      case "fish":
+        if (this.doubloons >= this.prices.fish * quantity) {
+          this.doubloons -= this.prices.fish * quantity;
+          this.fish += quantity;
+        }
+        break;
+      case "boats":
+        if (this.doubloons >= this.prices.boats * quantity) {
+          this.doubloons -= this.prices.boats * quantity;
+          this.boats += quantity;
+        }
+        break;
+      case "cannons":
+        if (this.doubloons >= this.prices.cannons * quantity) {
+          this.doubloons -= this.prices.cannons * quantity;
+          this.cannons += quantity;
+        }
+        break;
+    }
+  } else if (action === "sell") {
+    switch (item) {
+      case "fish":
+        if (this.fish >= quantity) {
+          this.doubloons += this.prices.fish * quantity;
+          this.fish -= quantity;
+        }
+        break;
+      case "boats":
+        if (this.boats >= quantity) {
+          this.doubloons += this.prices.boats * quantity;
+          this.boats -= quantity;
+        }
+        break;
+      case "cannons":
+        if (this.cannons >= quantity) {
+          this.doubloons += this.prices.cannons * quantity;
+          this.cannons -= quantity;
+        }
+        break;
     }
   }
+}
+
 
   handleRandomEvent(event) {
     switch (event) {
@@ -198,6 +218,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#doubloons").textContent = game.doubloons;
   };
 
+    const updatePrices = () => {
+    game.prices = {
+      fish: Math.floor(Math.random() * 6) + 5,
+      boats: Math.floor(Math.random() * 100) + 200,
+      cannons: Math.floor(Math.random() * 20) + 40,
+    };
+  };
+
   // Add event listeners and game logic
   document.querySelector("#advance-year").addEventListener("click", () => {
     game.advanceYear();
@@ -217,28 +245,21 @@ document.addEventListener("DOMContentLoaded", () => {
     game.battle("finalBoss");
     updateUI();
   });
-  document.querySelector("#market-buy").addEventListener("click", () => {
-    const item = document.querySelector("#item").value;
-    const quantity = parseInt(document.querySelector("#quantity").value, 10);
-    game.market("buy", item, quantity);
-    updateUI();
-  });
-  document.querySelector("#market-sell").addEventListener("click", () => {
-    const item = document.querySelector("#item").value;
-    const quantity = parseInt(document.querySelector("#quantity").value, 10);
-    game.market("sell", item, quantity);
-    updateUI();
-  });
-
-  document.querySelector("#buy").addEventListener("click", () => {
+document.querySelector("#buy").addEventListener("click", () => {
   const item = document.querySelector("#item").value;
   const quantity = parseInt(document.querySelector("#quantity").value, 10);
   game.market("buy", item, quantity);
+  updateUI();
 });
 document.querySelector("#sell").addEventListener("click", () => {
   const item = document.querySelector("#item").value;
   const quantity = parseInt(document.querySelector("#quantity").value, 10);
   game.market("sell", item, quantity);
+  updateUI();
 });
+
+
+
+
 
 });

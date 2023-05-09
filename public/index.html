@@ -40,18 +40,28 @@
 
                 <div>
                     <h3>Buy/Sell</h3>
-                    <label for="item">Item:</label>
-                    <select id="item">
-                        <option value="fish">Fish</option>
-                        <option value="cannons">Cannons</option>
-                        <option value="boats">Boats</option>
-                    </select>
-                    <label for="quantity">Quantity:</label>
-                    <input id="quantity" type="number" min="0" value="0" />
-                    <button id="buy">Buy</button>
-                    <button id="sell">Sell</button>
+                    <div class="buy-sell-container">
+                        <label for="item">Item:</label>
+                        <select id="item">
+                            <option value="fish">Fish</option>
+                            <option value="cannons">Cannons</option>
+                            <option value="boats">Boats</option>
+                        </select>
+                        <label for="quantity">Quantity:</label>
+                        <input id="quantity" type="number" min="0" value="0" />
+                        <div class="button-container">
+                            <button id="buy">Buy</button>
+                            <button id="sell">Sell</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+<div class="parchment-container">
+    <div class="parchment-text">
+        <!-- Add your text content here -->
+    </div>
+</div>
+
+
         </div>
     </div>
     <script src="main.js"></script>
