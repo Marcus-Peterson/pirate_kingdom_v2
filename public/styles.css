@@ -132,7 +132,7 @@ button:hover {
     font-size: 15px;
     padding-top: .02%;
     padding-bottom: .1px;
-    margin-top: .1px;
+    margin-top: 2%;
     /* Adjust the value as needed */
     transform: translate(-50%, -50%);
     width: 300px;
