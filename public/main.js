@@ -258,7 +258,24 @@ document.querySelector("#sell").addEventListener("click", () => {
   updateUI();
 });
 
+const buttons = document.querySelectorAll("button");
+const clickSound = document.getElementById("click-sound");
+const muteUnmuteBtn = document.getElementById("mute-unmute");
 
+let isMuted = false;
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!isMuted) {
+      clickSound.play();
+    }
+  });
+});
+
+muteUnmuteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  muteUnmuteBtn.textContent = isMuted ? "Unmute" : "Mute";
+});
 
 
 

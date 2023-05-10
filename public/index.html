@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pirate Kingdom</title>
     <link rel="stylesheet" href="styles.css" />
+    <audio id="click-sound" src="click_sound.wav" preload="auto"></audio>
+
 </head>
 
 <body>
     <div class="container">
         <h1 class="title">Pirate Kingdom</h1>
         <div id="game">
+            <div class="game-content"></div>
             <div id="status">
                 <p>Year: <span id="year">0</span></p>
                 <p>Pirates: <span id="pirates">50</span></p>
@@ -37,7 +40,7 @@
                     <input id="num-pirates" type="number" min="0" value="0" />
                     <button id="assign-pirates">Assign Pirates</button>
                 </div>
-
+            
                 <div>
                     <h3>Buy/Sell</h3>
                     <div class="buy-sell-container">
@@ -53,13 +56,10 @@
                             <button id="buy">Buy</button>
                             <button id="sell">Sell</button>
                         </div>
+                        <button id="mute-unmute">Mute/Unmute</button>
                     </div>
                 </div>
-<div class="parchment-container">
-    <div class="parchment-text">
-        <!-- Add your text content here -->
-    </div>
-</div>
+
 
 
         </div>
