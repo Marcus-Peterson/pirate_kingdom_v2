@@ -1,0 +1,78 @@
+Title: Pirate Kingdom Game Documentation
+
+Overview:
+The Pirate Kingdom game is a simple text-based simulation game in which the player manages a group of pirates, resources, and events over time. The objective is to advance through the years, making strategic decisions, allocating pirates to various tasks, and battling the Royal Navy and the final boss. The game features a market where the player can buy and sell resources, and a leaderboard to track the player's score based on the years survived.
+
+Key Components:
+2.1 PirateKingdom Class:
+
+The main game logic is encapsulated in the PirateKingdom class, which includes properties to represent the game state and methods to manage and manipulate the game state.
+
+Key properties include:
+
+year: Represents the current year in the game.
+pirates: The total number of pirates.
+boats: The total number of boats.
+cannons: The total number of cannons.
+fish: The total amount of fish, which serves as food for pirates.
+doubloons: The total amount of doubloons, which serves as currency in the game.
+events: An array of random events that can occur in the game, such as "disease", "kraken", and "storms".
+prices: An object containing the current market prices for fish, boats, and cannons.
+piratesFishing, piratesTreasureHunting, piratesBuildingBoats: The number of pirates allocated to specific tasks (fishing, treasure hunting, and building boats).
+Key methods include:
+
+advanceYear(): Advances the game by one year and updates game state, including managing resources, pirates, and random events.
+assignPirates(job, numPirates): Allocates a specified number of pirates to a specific task.
+battle(opponent): Simulates a battle against an opponent (Royal Navy or final boss) and updates game state based on the outcome.
+market(action, item, quantity): Allows the player to buy or sell items (fish, boats, cannons) in the market.
+handleRandomEvent(event): Handles random events that can occur in the game, such as "disease", "kraken", and "storms".
+gameOver(): Resets the game state and displays an alert to the user that the game is over.
+winGame(): Displays a winning message, saves the player's score, and displays the leaderboard.
+2.2 DOM manipulation and event handling:
+
+The game utilizes event listeners and DOM manipulation to update the user interface and handle user input. Key elements and events include:
+
+"Advance Year" button: Advances the game by one year, calls game.advanceYear(), and updates the user interface.
+"Assign Pirates" button: Allocates pirates to tasks, calls game.assignPirates(job, numPirates), and updates the user interface.
+"Battle Royal Navy" button: Initiates a battle against the Royal Navy, calls game.battle("royalNavy"), and updates the user interface.
+"Challenge Final Boss" button: Initiates a battle against the final boss, calls game.battle("finalBoss"), and updates the user interface.
+"Buy" and "Sell" buttons: Allows the player to buy or sell items in the market, calls game.market(action, item, quantity), and updates the user interface.
+Game Flow:
+The player starts with a number of pirates, boats, cannons, fish, and doubloons. The player can advance the game by clicking the "Advance Year" button, which updates the game state and user interface. The player must ensure that there are enough fish to feed the pirates, otherwise pirates will die, and the game may end.
+
+The player can allocate pirates to various tasks, such as fishing, treasure hunting, and building boats) using the "Assign Pirates" button, which calls the game.assignPirates(job, numPirates) method and updates the user interface. Allocating pirates to tasks can help increase resources, like fish and doubloons, and build more boats for battles.
+
+The player can engage in battles against the Royal Navy or the final boss using the "Battle Royal Navy" and "Challenge Final Boss" buttons, respectively. These buttons call the game.battle(opponent) method, which simulates the battle and updates the game state based on the outcome. Winning battles can grant rewards such as doubloons and cannons, but losing can result in the loss of pirates, boats, and cannons.
+
+The game features a market where the player can buy and sell fish, boats, and cannons using the "Buy" and "Sell" buttons. These buttons call the game.market(action, item, quantity) method and update the user interface with the current market prices, which are randomized using the updatePrices() function.
+
+The game may end if the player loses all pirates or fails to defeat the final boss. In either case, the gameOver() method is called, which resets the game state and displays an alert to the user. If the player defeats the final boss, the winGame() method is called, which displays a winning message, saves the player's score (based on the years survived), and displays the leaderboard.
+
+Random Events:
+The game includes random events that can occur when the player advances the year. These events, such as "disease", "kraken", and "storms", can impact the game state, resulting in the loss of pirates, boats, or fish. The handleRandomEvent(event) method is responsible for applying the effects of these events to the game state and updating the user interface accordingly.
+
+Saving and Loading Game State:
+The game state is saved using the browser's local storage, allowing players to continue their progress across browser sessions. The game state is saved and loaded using the saveGameState() and loadGameState() methods, respectively.
+
+Leaderboard:
+The game includes a leaderboard that tracks players' scores based on the years survived. The leaderboard is saved using local storage and displayed using DOM manipulation. The saveScore(name, score) and displayLeaderboard() methods are responsible for saving and displaying the leaderboard, respectively.
+
+In addition to the core gameplay features mentioned above, there are some smaller features and improvements that could be considered for the Pirate Kingdom game:
+
+Audio and Mute/Unmute:
+The game includes a click sound effect for button interactions, which can be muted or unmuted using the "Mute" and "Unmute" buttons. The click sound is played when any button is clicked, and the mute/unmute status is toggled using the isMuted variable and event listeners added to the buttons.
+
+Code organization:
+The game code is organized into a single JavaScript file, main.js, which defines the PirateKingdom class and its methods. This structure could be further improved by splitting the code into separate files, such as one for the game logic, another for the user interface, and another for utility functions. This would make the code easier to maintain and extend.
+
+Error handling and validation:
+The game includes some basic error handling, such as checking if there are enough pirates or resources before performing certain actions. However, more robust error handling and input validation could be implemented to prevent unexpected game states or behavior.
+
+Extensibility and modularity:
+The current game design and code structure allow for relatively easy extension with new features, such as additional random events, pirate tasks, or battle scenarios. However, the game could benefit from further modularization and separation of concerns, which would make it even easier to add, modify, or remove features in the future.
+
+Performance and optimization:
+The game currently performs well, but it could benefit from performance optimizations, such as reducing the number of DOM updates or improving the efficiency of certain game logic functions. This would ensure smooth gameplay and a better user experience, especially on lower-end devices or slow internet connections.
+
+User Interface improvements:
+The user interface of the game is relatively simple and functional. However, it could be enhanced with additional styling, animations, and user feedback to create a more engaging and immersive experience for players.
