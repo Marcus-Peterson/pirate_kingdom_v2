@@ -18,6 +18,7 @@ class PirateKingdom
       boats: Math.floor(Math.random() * 100) + 200,
       cannons: Math.floor(Math.random() * 20) + 40,
     };
+    this.royalNavyDifficultyModifier = 1;
   }
 
   advanceYear() {
@@ -54,6 +55,10 @@ class PirateKingdom
         this.boats += numBoats;
       }
     }
+    this.pirates += this.piratesFishing + this.piratesTreasureHunting + this.piratesBuildingBoats;
+    this.piratesFishing = 0;
+    this.piratesTreasureHunting = 0;
+    this.piratesBuildingBoats = 0;
 
     // Random event
     const randomEvent = this.events[Math.floor(Math.random() * this.events.length)];
@@ -100,11 +105,12 @@ class PirateKingdom
         this.pirates += Math.floor(Math.random() * 10) + 1;
         this.fish += Math.floor(Math.random() * 50) + 50;
         this.doubloons += Math.floor(Math.random() * 25) + 25;
+        this.royalNavyDifficultyModifier += 0.1;
       } else {
-        this.pirates -= Math.floor(Math.random() * this.pirates * 0.2);
-        this.boats -= Math.floor(Math.random() * this.boats * 0.2);
-        this.cannons -= Math.floor(Math.random() * this.cannons * 0.2);
-        this.fish -= Math.floor(Math.random() * this.fish * 0.2);
+        this.pirates -= Math.floor(Math.random() * this.pirates * 0.2 * this.royalNavyDifficultyModifier);
+        this.boats -= Math.floor(Math.random() * this.boats * 0.2 * this.royalNavyDifficultyModifier);
+        this.cannons -= Math.floor(Math.random() * this.cannons * 0.2 * this.royalNavyDifficultyModifier);
+        this.fish -= Math.floor(Math.random() * this.fish * 0.2 * this.royalNavyDifficultyModifier);
       }
     }
   }
@@ -216,20 +222,30 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#cannons").textContent = game.cannons;
     document.querySelector("#fish").textContent = game.fish;
     document.querySelector("#doubloons").textContent = game.doubloons;
+    
   };
-
-    const updatePrices = () => {
-    game.prices = {
+const updateMarketPrices = () => {
+  game.prices = {
       fish: Math.floor(Math.random() * 6) + 5,
       boats: Math.floor(Math.random() * 100) + 200,
       cannons: Math.floor(Math.random() * 20) + 40,
     };
-  };
+  document.querySelector("#price-fish").textContent = game.prices.fish;
+  document.querySelector("#price-boats").textContent = game.prices.boats;
+  document.querySelector("#price-cannons").textContent = game.prices.cannons;
+};
+
+
+
+
+
+// Other event listeners for buttons
 
   // Add event listeners and game logic
   document.querySelector("#advance-year").addEventListener("click", () => {
     game.advanceYear();
     updateUI();
+    updateMarketPrices();
   });
   document.querySelector("#assign-pirates").addEventListener("click", () => {
     const job = document.querySelector("#job").value;
@@ -256,6 +272,7 @@ document.querySelector("#sell").addEventListener("click", () => {
   const quantity = parseInt(document.querySelector("#quantity").value, 10);
   game.market("sell", item, quantity);
   updateUI();
+  
 });
 
 const buttons = document.querySelectorAll("button");
@@ -277,6 +294,7 @@ muteUnmuteBtn.addEventListener("click", () => {
   muteUnmuteBtn.textContent = isMuted ? "Unmute" : "Mute";
 });
 
-
+updateUI();
+updateMarketPrices();
 
 });
